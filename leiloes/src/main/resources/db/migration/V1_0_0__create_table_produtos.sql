@@ -1,0 +1,6 @@
+CREATE TABLE produtos (
+    id BIGINT PRIMARY KEY,
+    nome VARCHAR(255) DEFAULT NULL,
+    valor DECIMAL(10,2) DEFAULT NULL,
+    status VARCHAR(255)
+);
