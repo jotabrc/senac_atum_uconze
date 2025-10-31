@@ -2,8 +2,11 @@ package io.github.uconze.leiloes;
 
 import org.springframework.stereotype.Component;
 
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -18,12 +21,14 @@ import java.util.List;
 public class ListagemVIEW extends javax.swing.JFrame {
 
     private final ProdutoRepository produtoRepository;
+    private final VendaVIEW vendaVIEW;
 
     /**
      * Creates new form ListagemVIEW
      */
-    public ListagemVIEW(ProdutoRepository produtoRepository) {
+    public ListagemVIEW(ProdutoRepository produtoRepository, VendaVIEW vendaVIEW) {
         this.produtoRepository = produtoRepository;
+        this.vendaVIEW = vendaVIEW;
         initComponents();
         listarProdutos();
     }
@@ -144,14 +149,20 @@ public class ListagemVIEW extends javax.swing.JFrame {
 
     private void btnVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVenderActionPerformed
         String id = id_produto_venda.getText();
-        
-        //produtosdao.venderProduto(Integer.parseInt(id));
-        listarProdutos();
+        Optional<Produto> produto = produtoRepository.findById(Long.parseLong(id));
+        if (produto.isPresent() && Objects.equals("A Venda", produto.get().getStatus())) {
+            produto.get().setStatus("Vendido");
+            produtoRepository.save(produto.get());
+            listarProdutos();
+        } else JOptionPane.showMessageDialog(this,
+                "Produto já foi vendido",
+                "Aviso",
+                JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnVenderActionPerformed
 
     private void btnVendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVendasActionPerformed
-        //vendasVIEW vendas = new vendasVIEW(); 
-        //vendas.setVisible(true);
+        vendaVIEW.setVisible(true);
+        vendaVIEW.listarProdutos();
     }//GEN-LAST:event_btnVendasActionPerformed
 
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed

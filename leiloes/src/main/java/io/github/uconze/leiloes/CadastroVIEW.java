@@ -164,6 +164,9 @@ public class CadastroVIEW extends javax.swing.JFrame {
                 "Produto salvo com sucesso",
                 "Cadastro",
                 JOptionPane.INFORMATION_MESSAGE);
+
+        cadastroNome.setText("");
+        cadastroValor.setText("");
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     private void btnProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProdutosActionPerformed
